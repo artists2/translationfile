@@ -1,48 +1,46 @@
+# -*- coding: utf8 -*-
 import socket
 import threading
+'''
+import sys
+sys.path.append('/Users/r00t0k/project/translationfile/DB/')
 import dbCtrl
+'''
 
 HOST = 'localhost'
-PORT = 7676
+PORT = 7677
 
 
 
 
 
-def threaded():
-    t = threading.Thread(target=(), args=())
-    t.start
+def C2CPacket(): # Clinet To Clinet Packet
     pass
-
-def server():
-    pass
-
 
 def serverStart():
     print('File translation server start .. !!')
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((HOST, PORT))
-        s.listen()
-        print('Complete')
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST, PORT))
+    s.listen()
+    print('Complete')
+    #print('DB connection start .. !!')
+    #dbcmd = dbCtrl.dbController(HOST, 'root', '1234', 'clientid')
+    #print('Complete')
 
-        print('DB connection start .. !!')
-        dbcmd = dbCtrl.dbController(HOST, 'root', 'dpswpf0819@', 'clientid')
-        print('Complete')
-
-        print ('Wait...')
-        while True:
-            conn, addr = s.accept()
-            filename = conn.recv(1024)
-            filename.decode()
-            print(filename)
-            #파일을 확정지어서 휴대폰 -> 폰으로 보내는 거기 때문에 x
-            
-            conn
-    
-
+    print ('Wait...')
+    while True:
+        conn, addr = s.accept()
+        print(s.accept())
+        print(conn, addr)
+        filename = conn.recv(1024)
+        filename.decode()
+        print(filename)
+        #파일을 확정지어서 휴대폰 -> 폰으로 보내는 거기 때문에 x
+        
+        #conn
     print ('wait.....')
 
-
-serverStart()
-
+if __name__ == "__main__":
+    serverStart()    
+    pass    
 

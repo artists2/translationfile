@@ -2,7 +2,7 @@ import socket
 
 
 HOST = 'localhost'
-PORT = 7676
+PORT = 7677
 
 
 
