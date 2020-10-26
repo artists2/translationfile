@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 import socket
 import threading
+import os
 '''
 import sys
 sys.path.append('/Users/r00t0k/project/translationfile/DB/')
@@ -11,10 +12,17 @@ HOST = 'localhost'
 PORT = 7677
 
 
+def FileView(dir):
+    files = os.listdir(dir)
+    print(len(files))
+    for i in files:
+        print(i)
+    pass
 
 
+def C2CPacket(src, dst): # Clinet To Clinet Packet
 
-def C2CPacket(): # Clinet To Clinet Packet
+    
     pass
 
 def serverStart():
@@ -26,12 +34,12 @@ def serverStart():
     #print('DB connection start .. !!')
     #dbcmd = dbCtrl.dbController(HOST, 'root', '1234', 'clientid')
     #print('Complete')
-
+    FileView()
     print ('Wait...')
     while True:
         conn, addr = s.accept()
-        print(s.accept())
-        print(conn, addr)
+        #print(s.accept())
+        print(addr + "Connect !!")
         filename = conn.recv(1024)
         filename.decode()
         print(filename)
