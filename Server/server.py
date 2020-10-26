@@ -31,18 +31,19 @@ def ZipName():
 
 def FileUpload(filename): # 목적지로 파일 업로드 할 때
     try:
-        pass
+        print("File : " + filelist + "Upload Start")
+
     except:
         pass
     pass
 
 def FileDownload(filename): # 출발지에서 파일 다운로드 받을때
     try:
+        print("File : " + filelist + "Download Start")
         pass
     except:
         pass
     pass
-
 
 
 def TreeView(dir):
@@ -70,9 +71,11 @@ def serverStart():
     #FileView()
     print ('Wait...')
     while True:
+        # Test Code
+
         conn, addr = s.accept()
         #print(s.accept())
-        print(addr + "Connect !!")
+        print(str(addr) + " Connect Complete !!")
         filename = conn.recv(1024)
         filename.decode()
         print(filename)
