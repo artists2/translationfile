@@ -2,6 +2,8 @@
 import socket
 import threading
 import os
+import zipfile
+import getpass
 '''
 import sys
 sys.path.append('/Users/r00t0k/project/translationfile/DB/')
@@ -11,8 +13,39 @@ import dbCtrl
 HOST = 'localhost'
 PORT = 7677
 
+user = getpass.getuser()
+location = "C:/Users/" + user + "/Desktop"
 
-def FileView(dir):
+filelist = []
+
+def ZipFile(filelist):
+    with zipfile.ZipFile(location/ZipName(), w) as zip_file:
+        for file in filelist:
+            zip_file.write(file)
+        zip_file.close()
+
+def ZipName():
+    zipName = input("Zip Name?: ")
+    return zipName
+
+
+def FileUpload(filename): # 목적지로 파일 업로드 할 때
+    try:
+        pass
+    except:
+        pass
+    pass
+
+def FileDownload(filename): # 출발지에서 파일 다운로드 받을때
+    try:
+        pass
+    except:
+        pass
+    pass
+
+
+
+def TreeView(dir):
     files = os.listdir(dir)
     print(len(files))
     for i in files:
@@ -21,8 +54,8 @@ def FileView(dir):
 
 
 def C2CPacket(src, dst): # Clinet To Clinet Packet
+    #files = FileDownload(filename)
 
-    
     pass
 
 def serverStart():
@@ -34,7 +67,7 @@ def serverStart():
     #print('DB connection start .. !!')
     #dbcmd = dbCtrl.dbController(HOST, 'root', '1234', 'clientid')
     #print('Complete')
-    FileView()
+    #FileView()
     print ('Wait...')
     while True:
         conn, addr = s.accept()
@@ -44,11 +77,12 @@ def serverStart():
         filename.decode()
         print(filename)
         #파일을 확정지어서 휴대폰 -> 폰으로 보내는 거기 때문에 x
-        
+
         #conn
     print ('wait.....')
 
 if __name__ == "__main__":
-    serverStart()    
-    pass    
+    print(location)
+    serverStart()
+    pass
 

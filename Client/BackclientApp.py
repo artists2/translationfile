@@ -10,7 +10,7 @@ s.connect((HOST, PORT))
 
 
 def CreateID():
-    print(socket.gethostname()) # 
+    print(socket.gethostname()) #
 
     return
 
