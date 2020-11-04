@@ -1,5 +1,10 @@
 import socket
 
+
+
+user = getpass.getuser()
+location = "C:/Users/" + user + "/Desktop"
+
 HOST = 'localhost'
 PORT = 7677
 
@@ -19,3 +24,4 @@ def SendID_Server(): # Mac Addr 서버로 보내주기
 
 
 CreateID()
+

@@ -2,7 +2,6 @@
 import socket
 import threading
 import os
-import zipfile
 import getpass
 '''
 import sys
@@ -16,7 +15,29 @@ PORT = 7677
 user = getpass.getuser()
 location = "C:/Users/" + user + "/Desktop"
 
-class protocol
+#packet = (controlCode, srcClientId, dstClientId, fileLocation, fileName)
+# controlCode|srcClient|dstClient|fileLocation|fileName
+
+
+#dic
+
+
+fileTransferReq = {
+    "controlCode" : 1,
+    "srcClientId" : None,
+    "dstClientId" : None,
+    "fileLocation" : None,
+    "fileName" : None
+}
+
+fileViewReq = {
+    "controlCode" : 2,
+    "reqLocation" : None
+}
+
+
+
+
 
 
 
@@ -38,22 +59,15 @@ def serverStart():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
     s.listen()
-    print('Complete')
-    #print('DB connection start .. !!')
-    #dbcmd = dbCtrl.dbController(HOST, 'root', '1234', 'clientid')
-    #print('Complete')
-    #FileView()
-    print ('Wait...')
     while True:
-        # Test Code
-
         conn, addr = s.accept()
-        #print(s.accept())
         print(str(addr) + " Connect Complete !!")
-        filename = conn.recv(1024)
-        filename.decode()
-        print(filename)
-        #파일을 확정지어서 휴대폰 -> 폰으로 보내는 거기 때문에 x
+
+        xx = conn.recv(1024).decode().split(',')
+        print(xx)
+        #if xx == 1:
+        #    print("command 1")
+        #xx.decode()
 
         #conn
     print ('wait.....')
