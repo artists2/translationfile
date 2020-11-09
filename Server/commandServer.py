@@ -35,7 +35,14 @@ fileViewReq = {
     "reqLocation" : None
 }
 
-
+sessionProtocol = {
+    "method" : 1,
+    "session" : None,
+    "params" : {
+        "user" : None,
+        "pass" : None
+    }
+}
 
 
 
@@ -56,11 +63,11 @@ def C2CPacket(src, dst): # Clinet To Clinet Packet
 
 def serverStart():
     print('File translation server start .. !!')
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.bind((HOST, PORT))
-    s.listen()
+    #s.listen()
     while True:
-        conn, addr = s.accept()
+        conn, addr = s.recvfrom(1024)
         print(str(addr) + " Connect Complete !!")
 
         xx = conn.recv(1024).decode().split(',')

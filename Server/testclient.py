@@ -6,7 +6,7 @@ PORT = 7677
 
 
 
-c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+c = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 c.connect((HOST, PORT))
 
 examDic = {
