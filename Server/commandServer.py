@@ -4,11 +4,9 @@ import threading
 import os
 import getpass
 import bson
-'''
 import sys
 sys.path.append('/Users/r00t0k/project/translationfile/DB/')
 import dbCtrl
-'''
 
 HOST = 'localhost'
 PORT = 7677
@@ -45,6 +43,10 @@ fileViewReq = {
 
 
 
+def createSession(method, session, params):
+    print(session, params["user"], params["pass"])
+    dbCtrl.dbController()
+    pass
 
 
 def TreeView(dir):
@@ -73,12 +75,12 @@ def serverStart():
 
 
         data = conn.recv(1024)
-
-        #if data == 
-        print(data)
         loadsData = bson.loads(data)
         
         if (loadsData["method"] == 1):
+            print("sessionProtocol")
+
+            createSession(**loadsData)
             pass
         elif (loadsData["method"] == 2):
             pass
@@ -86,7 +88,7 @@ def serverStart():
             pass
 
         
-        print(loadsData["method"])
+        #print(loadsData["method"])
 
 
 

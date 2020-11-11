@@ -11,10 +11,10 @@ c.connect((HOST, PORT))
 
 sessionProtocol = {
     "method" : 1,
-    "session" : None,
+    "session" : "testSession", #None
     "params" : {
-        "user" : None,
-        "pass" : None
+        "user" : "abc123", #None
+        "pass" : "root123" #None
     }
 }
 
