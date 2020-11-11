@@ -11,18 +11,32 @@ c.connect((HOST, PORT))
 
 sessionProtocol = {
     "method" : 1,
-    "session" : "testSession", #None
+    "session" : None,
     "params" : {
-        "user" : "abc123", #None
-        "pass" : "root123" #None
+        "userInfo" : {
+            "userId" : "abcd1233",
+            "userPw" : "abcd1233"
+        }
+    }
+}
+
+joinProtocol = {
+    "method" : 2,
+    "session" : None,
+    "params" : {
+        "userInfo" : {
+            "userId" : "test1234",
+            "userPw" : "abcd1233",
+            "userEmail" : "aaa@naver.com"
+    }
     }
 }
 
 
-sessionProtocolBson = bson.dumps(sessionProtocol)
+Bson = bson.dumps(sessionProtocol)
 #sessionProtocolLoads = bson.loads(examDicBson)
 
-c.sendall(sessionProtocolBson)
+c.sendall(Bson)
 
 c.close()
 

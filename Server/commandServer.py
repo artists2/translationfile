@@ -4,8 +4,10 @@ import threading
 import os
 import getpass
 import bson
+import uuid
+
 import sys
-sys.path.append('/Users/r00t0k/project/translationfile/DB/')
+sys.path.append('/Users/r00t0k/project/translationfile/DB')
 import dbCtrl
 
 HOST = 'localhost'
@@ -17,18 +19,37 @@ location = "C:/Users/" + user + "/Desktop"
 #packet = (controlCode, srcClientId, dstClientId, fileLocation, fileName)
 # controlCode|srcClient|dstClient|fileLocation|fileName
 
+#DB 객체 생성
+dbC = dbCtrl.dbController(**(dbCtrl.translationFile_Dict))
+
+
+
 
 # 프로토콜 정의
 sessionProtocol = {
     "method" : 1,
     "session" : None,
     "params" : {
-        "user" : None,
-        "pass" : None
+        "userInfo" : {
+            "userId" : None,
+            "userPw" : None
+        }
     }
 }
 
-fileTransferReq = {
+joinProtocol = {
+    "method" : 2,
+    "session" : None,
+    "params" : {
+        "userInfo" : {
+            "userId" : None,
+            "userPw" : None,
+            "userEmail" : None
+    }
+    }
+}
+
+"""fileTransferReq = {
     "method" : 2,
     "srcClientId" : None,
     "dstClientId" : None,
@@ -40,14 +61,25 @@ fileViewReq = {
     "method" : 3,
     "reqLocation" : None
 }
+"""
 
-
-
-def createSession(method, session, params):
-    print(session, params["user"], params["pass"])
-    dbCtrl.dbController()
+def joinUser(method, session, params):
+    #print(method, session ,params["userInfo"]["userId"], params["userInfo"]["userPw"], params["userInfo"]["userEmail"])
+    userInfoList = (params["userInfo"]["userId"], params["userInfo"]["userPw"], params["userInfo"]["userEmail"])
+    try:
+        dbC.insertDB("user", userInfoList)
+        print("회원가입 완료")
+    except:
+        print("중복 된 아이디가 존재합니다.")
     pass
 
+def findSession():
+    pass
+
+def createSession(method, session, params):
+    print(session, params["userInfo"]["userId"], params["userInfo"]["userPw"])
+    print(dbC.selectDB("user", "*", "user_id = 'test123' "))
+    pass
 
 def TreeView(dir):
     files = os.listdir(dir)
@@ -68,7 +100,6 @@ def serverStart():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
     s.listen()
-
     while True:
         conn, addr = s.accept()
         print(str(addr) + " Connection Complete !!")
@@ -79,10 +110,10 @@ def serverStart():
         
         if (loadsData["method"] == 1):
             print("sessionProtocol")
-
             createSession(**loadsData)
             pass
         elif (loadsData["method"] == 2):
+            joinUser(**loadsData)
             pass
         elif (loadsData["method"] == 3):
             pass
