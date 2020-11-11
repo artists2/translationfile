@@ -3,6 +3,7 @@ import socket
 import threading
 import os
 import getpass
+import bson
 '''
 import sys
 sys.path.append('/Users/r00t0k/project/translationfile/DB/')
@@ -19,22 +20,7 @@ location = "C:/Users/" + user + "/Desktop"
 # controlCode|srcClient|dstClient|fileLocation|fileName
 
 
-#dic
-
-
-fileTransferReq = {
-    "controlCode" : 1,
-    "srcClientId" : None,
-    "dstClientId" : None,
-    "fileLocation" : None,
-    "fileName" : None
-}
-
-fileViewReq = {
-    "controlCode" : 2,
-    "reqLocation" : None
-}
-
+# 프로토콜 정의
 sessionProtocol = {
     "method" : 1,
     "session" : None,
@@ -42,6 +28,19 @@ sessionProtocol = {
         "user" : None,
         "pass" : None
     }
+}
+
+fileTransferReq = {
+    "method" : 2,
+    "srcClientId" : None,
+    "dstClientId" : None,
+    "fileLocation" : None,
+    "fileName" : None
+}
+
+fileViewReq = {
+    "method" : 3,
+    "reqLocation" : None
 }
 
 
@@ -63,20 +62,35 @@ def C2CPacket(src, dst): # Clinet To Clinet Packet
 
 def serverStart():
     print('File translation server start .. !!')
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
-    #s.listen()
+    s.listen()
+
     while True:
-        conn, addr = s.recvfrom(1024)
-        print(str(addr) + " Connect Complete !!")
+        conn, addr = s.accept()
+        print(str(addr) + " Connection Complete !!")
 
-        xx = conn.recv(1024).decode().split(',')
-        print(xx)
-        #if xx == 1:
-        #    print("command 1")
-        #xx.decode()
 
-        #conn
+        data = conn.recv(1024)
+
+        #if data == 
+        print(data)
+        loadsData = bson.loads(data)
+        
+        if (loadsData["method"] == 1):
+            pass
+        elif (loadsData["method"] == 2):
+            pass
+        elif (loadsData["method"] == 3):
+            pass
+
+        
+        print(loadsData["method"])
+
+
+
+
     print ('wait.....')
 
 if __name__ == "__main__":

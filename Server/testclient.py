@@ -6,26 +6,23 @@ PORT = 7677
 
 
 
-c = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 c.connect((HOST, PORT))
 
-examDic = {
-    "commandCode" : 1,
-    "name" : "r00t0k",
-    "age" : "24",
-    "major" : "ComputerEngineering"
+sessionProtocol = {
+    "method" : 1,
+    "session" : None,
+    "params" : {
+        "user" : None,
+        "pass" : None
+    }
 }
 
 
-examDicBson = bson.dumps(examDic)
-print(examDic)
-print(examDicBson)
+sessionProtocolBson = bson.dumps(sessionProtocol)
+#sessionProtocolLoads = bson.loads(examDicBson)
 
-examDicBsonLoads = bson.loads(examDicBson)
-
-print(examDicBsonLoads)
-
-c.sendall("1,2,3,4,5".encode())
+c.sendall(sessionProtocolBson)
 
 c.close()
 
