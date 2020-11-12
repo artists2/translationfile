@@ -14,8 +14,8 @@ sessionProtocol = {
     "session" : None,
     "params" : {
         "userInfo" : {
-            "userId" : "abcd1233",
-            "userPw" : "abcd1233"
+            "userId" : "test123",
+            "userPw" : "abcd1243"
         }
     }
 }
