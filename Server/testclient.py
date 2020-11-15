@@ -2,7 +2,7 @@ import socket
 import bson
 
 HOST = 'localhost'
-PORT = 7677
+PORT = 8081 #7677
 
 
 

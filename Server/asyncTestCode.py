@@ -2,9 +2,17 @@ import asyncio
 from asyncio import transports
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
+import bson
 
 POOL_SIZE = 1000
 ASYNC = True
+
+
+class 
+
+
+
+
 
 
 class HandlerFactory(asyncio.Protocol):
@@ -40,12 +48,13 @@ class HandlerFactory(asyncio.Protocol):
 
     @staticmethod
     def __data_received(data: bytes):
-        msg = data.decode()
+        msg = bson.loads(data)#data.decode()
         print(f"Data received: {msg}")
         return data
 
 
 class Server:
+    #def __init__:
     server = None
     routes = {}
 
@@ -62,8 +71,8 @@ class Server:
 
 
 async def main():
-    s = Server()
-    await s.init()
+    command_server = Server()
+    await command.init()
 
 
 if __name__ == "__main__":

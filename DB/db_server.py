@@ -8,28 +8,33 @@ translationFile_Dict = {
     "charset" : "utf8"
 }
 
-class dbController:
+
+
+
+class DbController:
     def __init__(self, host, user, password, db, charset):
         self.dbconn = pymysql.connect(host = host, user = user, password = password, db = db, charset = charset)
         self.dbcursor = self.dbconn.cursor(pymysql.cursors.DictCursor)
-    def insertDB(self, tableName, values):
-        print("******insert DB")
+    def insert_db(self, tableName, values):
+        print(queryString)
         self.dbcursor.execute("INSERT INTO " + tableName + " VALUES " +  str(values))
         self.dbconn.commit()
         pass
-    def deleteDB(self):
+    def delete_db(self, queryString):
+        self.dbcursor.execute(queryString)
+        self.dbconn.commit()
         pass
-    def selectDB(self, tableName, fieldName, condString):
-        print("SELECT " + fieldName + " FROM " + tableName + " WHERE " + condString)
-        self.dbcursor.execute("SELECT " + fieldName + " FROM " + tableName + " WHERE " + condString)
+    def select_db(self, queryString):
+        print(queryString)
+        self.dbcursor.execute(queryString)
         result = self.dbcursor.fetchone() #fetchall, fetchone
         return result
-        #return self.dbcursor.fetchall()
         pass
-    def updateDB(self):
+    def update_db(self):
         pass
 
 
 #dbC = dbController(**translationFile_Dict)
-#dbC.insertDB("user", ("a", "b", "c"))
-#dbC.selectDB("user", "*", "user_id = 'test123'")
+#dbC.insert_db("user", ("a", "b", "c"))
+#dbC.select_db("select * from user where user_id = 'test123'")
+#print(dbC.select_db("select * from user where user_id = 'test123'")["user_pw"])
