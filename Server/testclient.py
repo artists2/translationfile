@@ -2,7 +2,9 @@ import socket
 import bson
 
 HOST = 'localhost'
-PORT = 8081 #7677
+PORT = 7077
+# 7077 = _app_server_port
+# 7078 = _command_server_port
 
 
 

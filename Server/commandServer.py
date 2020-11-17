@@ -38,10 +38,10 @@ def join_user(method, session, params):
     pass
 
 def login_user(method, session, params):
-    _login = int(controller.select_db("select COUNT(*) from user where user_id = '" + 
-                                    params["userInfo"]["userId"] + 
-                                    "' and user_pw = '" + 
-                                    params["userInfo"]["userPw"] + 
+    _login = int(controller.select_db("select COUNT(*) from user where user_id = '" +
+                                    params["userInfo"]["userId"] +
+                                    "' and user_pw = '" +
+                                    params["userInfo"]["userPw"] +
                                     "' ")["COUNT(*)"])
     if _login == 1:
         print("로그인 성공")
@@ -51,8 +51,8 @@ def login_user(method, session, params):
 
 def find_user(method, session, params):
     try:
-        controller.select_db("select user_id from user where user_email = '" + 
-                            params["userInfo"]["user_email"] + 
+        controller.select_db("select user_id from user where user_email = '" +
+                            params["userInfo"]["user_email"] +
                             "' ")["user_id"]
     except:
         print("이메일에 매칭되는 아이디가 없습니다.")
@@ -61,7 +61,7 @@ def find_user(method, session, params):
 def check_expired_session(method, session, params):
     # 세션 만료시간 체크
     exprie_time = int(controller.select_db("select session_expired from session where user_id = '" +
-                                            params["userInfo"]["user_id"] + 
+                                            params["userInfo"]["user_id"] +
                                             "' ")["session_expired"])
 
     if (time.time() > exprie_time):
@@ -84,13 +84,13 @@ def delete_session(expiretime):
 def create_session(method, session, params):
     #print(session, params["userInfo"]["userId"], params["userInfo"]["userPw"])
     #print(controller.select_db("select * from session where user_pw = '" + params["userInfo"]["userId"] + "' "))
-    
-    print(controller.select_db("SELECT COUNT(*) FROM session WHERE user_id= '" + 
-                                params["userInfo"]["userId"] + 
+
+    print(controller.select_db("SELECT COUNT(*) FROM session WHERE user_id= '" +
+                                params["userInfo"]["userId"] +
                                 "' ")["COUNT(*)"]) # 0이면 세션 없는거, 1이면 세션 있는거
-    
-    isSession = int(controller.select_db("SELECT COUNT(*) FROM session WHERE user_id= '" + 
-                                        params["userInfo"]["userId"] + 
+
+    isSession = int(controller.select_db("SELECT COUNT(*) FROM session WHERE user_id= '" +
+                                        params["userInfo"]["userId"] +
                                         "' ")["COUNT(*)"])
 
     if isSession == 1:
@@ -100,9 +100,9 @@ def create_session(method, session, params):
         print("세션이 존재하지 않아 세션을 생성합니다.")
         _realsession = str(uuid.uuid4())
         _sessiontime = (time.time() + 600)
-        
+
         session_query = (_realsession, _sessiontime, params["userInfo"]["userId"])
-        
+
         controller.insert_db("session", session_query)
 
         # 앱으로 다시 보내주기
@@ -122,7 +122,7 @@ def start_server() -> None:
 
         data = conn.recv(1024)
         loads_protocol = bson.loads(data)
-        
+
         """print(loads_protocol)
         del loads_protocol["method"]
         print(loads_protocol)"""
