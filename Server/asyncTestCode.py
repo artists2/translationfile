@@ -3,22 +3,123 @@ from asyncio import transports
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 import bson
+import sys
+
+sys.path.append("/Users/r00t0k/project/translationfile/DB")
+from connection_pool_db import DBController
+
+controller = DBController()
+
 
 POOL_SIZE = 1000
 ASYNC = True
 
+# -> AUTH
 
-class Action:
-    def 
-
+def join_user(method, session, params):
+    #print(method, session ,params["userInfo"]["userId"], params["userInfo"]["userPw"], params["userInfo"]["userEmail"])
+    _user_info_list = (params["userInfo"]["userId"], params["userInfo"]["userPw"], params["userInfo"]["userEmail"])
+    try:
+        controller.insert_db("user", _user_info_list)
+        print("회원가입 완료")
+    except:
+        print("중복 된 아이디가 존재합니다.")
     pass
 
+def login_user(method, session, params):
+    _login = int(controller.select_db("select COUNT(*) from user where user_id = '" +
+                                    params["userInfo"]["userId"] +
+                                    "' and user_pw = '" +
+                                    params["userInfo"]["userPw"] +
+                                    "' ")["COUNT(*)"])
+    if _login == 1:
+        print("로그인 성공")
+    else:
+        print("로그인 실패")
+    pass
+
+def find_user(method, session, params):
+    try:
+        controller.select_db("select user_id from user where user_email = '" +
+                            params["userInfo"]["user_email"] +
+                            "' ")["user_id"]
+    except:
+        print("이메일에 매칭되는 아이디가 없습니다.")
+    pass
+
+# <- AUTH 
+
+# -> Session
+
+def create_session(method, session, params):
+    #print(session, params["userInfo"]["userId"], params["userInfo"]["userPw"])
+    #print(controller.select_db("select * from session where user_pw = '" + params["userInfo"]["userId"] + "' "))
+
+    print(controller.select_db("SELECT COUNT(*) FROM session WHERE user_id= '" +
+                                params["userInfo"]["userId"] +
+                                "' ")["COUNT(*)"]) # 0이면 세션 없는거, 1이면 세션 있는거
+
+    isSession = int(controller.select_db("SELECT COUNT(*) FROM session WHERE user_id= '" +
+                                        params["userInfo"]["userId"] +
+                                        "' ")["COUNT(*)"])
+
+    if isSession == 1:
+        print("세션이 존재합니다.")
+
+    else:
+        print("세션이 존재하지 않아 세션을 생성합니다.")
+        _realsession = str(uuid.uuid4())
+        _sessiontime = (time.time() + 600)
+
+        session_query = (_realsession, _sessiontime, params["userInfo"]["userId"])
+
+        controller.insert_db("session", session_query)
+
+        # 앱으로 다시 보내주기
+    pass
+
+def check_expired_session(method, session, params):
+    # 세션 만료시간 체크
+    exprie_time = int(controller.select_db("select session_expired from session where user_id = '" +
+                                            params["userInfo"]["user_id"] +
+                                            "' ")["session_expired"])
+
+    if (time.time() > exprie_time):
+        #만료
+        print("SESSION_EXPIRED")
+        return delete_session(exprie_time)
+    elif (time.time() <= exprie_time):
+        #만료x
+        print("SESSION_VALID")
+    else:
+        print("SESSION_INVALID")
+    pass
+
+def delete_session(expiretime):
+    query_delete_session = "DELETE FROM session WHERE session_expired = '" + expiretime + "' "
+    controller.delete_db(query_delete_session)
+    # 만료된 세션 삭제
+    pass
+
+# <- Session
+
+# -> File View
+
+def dir_client():
+    pass
+
+# <- File View
 
 
+# -> File Transfer
+
+def translation_file():
+    pass
+
+# <- File Transfer
 
 
-
-
+# -> Factory
 class HandlerFactory(asyncio.Protocol):
     transport: transports.Transport
     peer_name = None
@@ -59,13 +160,24 @@ class HandlerFactory(asyncio.Protocol):
         msg = bson.loads(data) #data.decode()
         print(f"Data received: {msg}")
         
-        if ["method"] == 1:
+        """
+        method = 1  -> create session
+        method = 2  -> join user
+        method = 3  -> 
+        """
+        if msg["method"] == 1:
+            print("Protocol 1")
+            
             pass
-        if ["method"] == 2:
+        elif msg["method"] == 2:
+            print("Protocol 2")
             pass
 
         return data
 
+# <- Factory
+
+# -> Server
 
 class Server:
     #def __init__:
@@ -97,7 +209,9 @@ class Server:
             await self.cmd_server.wait_closed()
             await self.app_server.wait_closed()
 
+# <- Server
 
+# -> Main
 async def main():
     _app_server_port = 7077
     _command_server_port = 7078
@@ -109,3 +223,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
+# <- Main
