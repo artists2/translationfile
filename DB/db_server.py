@@ -1,4 +1,5 @@
 import pymysql #host='localhost', port=3306, user='root', passwd='mysql1234', db='estdb',charset='utf8',autocommit=True)
+from pymysqlpool.pool import Pool
 
 translationFile_Dict = {
     "user" : "root",
@@ -11,7 +12,11 @@ translationFile_Dict = {
 
 
 
+
+
 class DbController:
+    pool = Pool(**translationFile_Dict)
+
     def __init__(self, host, user, password, db, charset):
         self.dbconn = pymysql.connect(host = host, user = user, password = password, db = db, charset = charset)
         self.dbcursor = self.dbconn.cursor(pymysql.cursors.DictCursor)
