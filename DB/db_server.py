@@ -16,6 +16,7 @@ translationFile_Dict = {
 
 class DbController:
     pool = Pool(**translationFile_Dict)
+    pool.init()
 
     def __init__(self, host, user, password, db, charset):
         self.dbconn = pymysql.connect(host = host, user = user, password = password, db = db, charset = charset)
