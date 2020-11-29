@@ -9,8 +9,8 @@ _db_info = {
 }
 
 class DBController:
-    pool = Pool(**_db_info)
-    pool.init()
+    """pool = Pool(**_db_info)
+    pool.init()"""
 
     @classmethod
     def select_db(cls,querystring):
@@ -49,13 +49,16 @@ class DBController:
 
 
 
-"""pool = Pool(**_db_info)
+pool = Pool(**_db_info)
 pool.init()
 
 connection = pool.get_conn()
 cur = connection.cursor()
+
+#result = cur.execute("insert into user values('a2da','adad','adadad')")
 #print(pool.get_pool_size())
-cur.execute("select * from user;")
+cur.execute("select * from session;")
 print(cur.fetchone())
+
+#print(result, type(result))
 pool.release(connection)
-"""
